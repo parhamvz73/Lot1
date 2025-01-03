@@ -66,11 +66,47 @@ class CountdownTimer {
     // Function to generate 60 circular number buttons dynamically
     generateNumberButtons(containerId) {
       const buttonsContainer = document.getElementById(`${containerId}-buttons`);
+      const selectedNumbers = []; // Array to keep track of selected numbers
+  
       for (let i = 1; i <= 60; i++) {
         const button = document.createElement('button');
         button.classList.add('number-button');
         button.textContent = i; // Set button number
-        buttonsContainer.appendChild(button); // Add button to container
+  
+        // Add event listener for button selection
+        button.addEventListener('click', () => {
+          // If button is already selected, deselect it
+          if (button.classList.contains('selected')) {
+            button.classList.remove('selected');
+            const index = selectedNumbers.indexOf(i); // Find index of number
+            if (index > -1) {
+              selectedNumbers.splice(index, 1); // Remove number from selected array
+            }
+          } else if (selectedNumbers.length < 3) {
+            // Allow selection only if less than 3 numbers are picked
+            button.classList.add('selected');
+            selectedNumbers.push(i); // Add number to selected array
+          }
+  
+          // Disable remaining buttons if 3 numbers are selected
+          if (selectedNumbers.length === 3) {
+            const allButtons = document.querySelectorAll(`#${containerId}-buttons .number-button`);
+            allButtons.forEach((btn) => {
+              if (!btn.classList.contains('selected')) {
+                btn.disabled = true; // Disable unselected buttons
+              }
+            });
+          } else {
+            // Enable all buttons if less than 3 numbers are selected
+            const allButtons = document.querySelectorAll(`#${containerId}-buttons .number-button`);
+            allButtons.forEach((btn) => {
+              btn.disabled = false;
+            });
+          }
+        });
+  
+        // Append button to the container
+        buttonsContainer.appendChild(button);
       }
     }
   }

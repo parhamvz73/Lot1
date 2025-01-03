@@ -178,3 +178,18 @@ body {
     background-color: #4caf50;
     color: white;
   }
+
+  /* Selected Button Style */
+.number-button.selected {
+    background-color: #4caf50;
+    color: white;
+    border-color: #4caf50;
+  }
+  
+  /* Disabled Button Style */
+  .number-button:disabled {
+    background-color: #ccc;
+    color: #999;
+    cursor: not-allowed;
+  }
+  

@@ -149,3 +149,32 @@ body {
     margin-top: 10px;
     text-align: left;
   }
+
+  /* Circular Buttons Container */
+.number-buttons {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr); /* 15 buttons per row */
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px;
+  }
+  
+  /* Circular Buttons */
+  .number-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Makes the button circular */
+    border: 1px solid #4caf50;
+    background-color: transparent;
+    color: #4caf50;
+    text-align: center;
+    line-height: 40px; /* Centers text vertically */
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover Effect */
+  .number-button:hover {
+    background-color: #4caf50;
+    color: white;
+  }

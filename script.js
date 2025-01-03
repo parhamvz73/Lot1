@@ -2,6 +2,7 @@
 let globalCombinations = [];
 let selectedCombination = {}; // Track selected combination per dropdown
 
+
 class CountdownTimer {
     constructor(containerId, duration, label) {
         // Select container and set timer properties
@@ -12,6 +13,10 @@ class CountdownTimer {
         this.label = label; // Label for Pool unique ID
         this.instanceCount = 0; // Start instance count at 0
         this.selectedNumbers = []; // Store selected numbers
+
+        // Automated participation variables
+        this.autoParticipationEnabled = false; // Tracks if automated participation is enabled
+        this.autoParticipationCombination = null; // Stores combination for automated participation
 
         // Create HTML structure inside the container
         this.container.innerHTML = `
@@ -30,7 +35,6 @@ class CountdownTimer {
             <!-- Combination Labels -->
             <div class="combination-labels" id="${containerId}-labels"></div>
             <!-- Divider -->
-            <!-- Divider -->
             <div class="divider"></div>
             <!-- Row: Pick Your 3 Numbers and Dropdown -->
             <div class="pick-numbers-container">
@@ -45,6 +49,10 @@ class CountdownTimer {
                     <div class="remove-link" id="${containerId}-remove-link" style="display: none;">
                         <img src="assets/bin.svg" alt="Remove" class="remove-icon" />
                         <span>Remove this combination</span>
+                    </div>
+                    <!-- Automated Participation Link -->
+                    <div class="auto-participation-link" id="${containerId}-auto-participation" style="display: none; color: yellow; cursor: pointer;">
+                        Automated Participation
                     </div>
                 </div>
             </div>
@@ -65,13 +73,14 @@ class CountdownTimer {
 
       // Select elements
       this.countdownElement = document.getElementById(`${containerId}-countdown`);
-        this.progressBar = document.getElementById(`${containerId}-progress`);
-        this.poolIdElement = document.getElementById(`${containerId}-pool-id`);
-        this.storeButton = document.getElementById(`${containerId}-store-combination`);
-        this.dropdown = document.getElementById(`${containerId}-combinations`);
-        this.removeLink = document.getElementById(`${containerId}-remove-link`);
-        this.ticketsInput = document.getElementById(`${containerId}-tickets`);
-        this.labelsContainer = document.getElementById(`${containerId}-labels`);
+      this.progressBar = document.getElementById(`${containerId}-progress`);
+      this.poolIdElement = document.getElementById(`${containerId}-pool-id`);
+      this.storeButton = document.getElementById(`${containerId}-store-combination`);
+      this.dropdown = document.getElementById(`${containerId}-combinations`);
+      this.removeLink = document.getElementById(`${containerId}-remove-link`);
+      this.autoParticipationLink = document.getElementById(`${containerId}-auto-participation`);
+      this.ticketsInput = document.getElementById(`${containerId}-tickets`);
+      this.labelsContainer = document.getElementById(`${containerId}-labels`);
 
         // Populate dropdown initially with global combinations
         this.updateAllDropdowns();
@@ -83,22 +92,26 @@ class CountdownTimer {
       // Add event listener for store button
       this.storeButton.addEventListener('click', () => this.storeCombination());
 
-      // Handle dropdown change
+      // Dropdown change
       this.dropdown.addEventListener('change', () => {
         const selected = this.dropdown.value;
         if (selected !== "none") {
             this.applyStoredCombination(selected); // Apply the combination
             this.removeLink.style.display = 'flex';
+            this.autoParticipationLink.style.display = 'block'; // Show auto participation link
             selectedCombination[containerId] = selected;
-    
+
             // Add click event to remove the combination
             this.removeLink.addEventListener('click', () => this.removeCombination(containerId));
         } else {
             this.removeLink.style.display = 'none';
+            this.autoParticipationLink.style.display = 'none';
         }
     });
-    
-  }
+
+    // Auto participation click event
+    this.autoParticipationLink.addEventListener('click', () => this.toggleAutoParticipation());
+}
   applyStoredCombination(combination) {
     // Extract numbers and ticket count
     const [numbers, tickets] = combination.split(' - ');
@@ -147,27 +160,53 @@ class CountdownTimer {
       const secs = seconds % 60;
       return `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
+// Toggle automated participation
+toggleAutoParticipation() {
+    if (this.dropdown.value === "none") {
+        alert("Please select a combination first!");
+        return;
+    }
 
+    this.autoParticipationEnabled = !this.autoParticipationEnabled; // Toggle state
+
+    if (this.autoParticipationEnabled) {
+        this.autoParticipationCombination = this.dropdown.value; // Store combination
+        this.autoParticipationLink.style.color = 'green';
+        this.autoParticipationLink.textContent = 'Automated Participation (Enabled)';
+    } else {
+        this.autoParticipationCombination = null;
+        this.autoParticipationLink.style.color = 'yellow';
+        this.autoParticipationLink.textContent = 'Automated Participation';
+    }
+}
     startCountdown() {
-      const interval = setInterval(() => {
-        this.timeLeft--;
-        this.countdownElement.textContent = this.formatTime(this.timeLeft);
-        const progress = ((this.totalTime - this.timeLeft) / this.totalTime) * 100;
-        this.progressBar.style.width = `${progress}%`;
-
-        if (this.timeLeft <= 0) {
-          clearInterval(interval);
-          this.instanceCount++;
-          this.poolIdElement.textContent = this.getPoolId();
-          this.clearLabels(); // Clear combination labels
-          setTimeout(() => {
-            this.timeLeft = this.totalTime;
-            this.progressBar.style.width = '0%';
+        const interval = setInterval(() => {
+            this.timeLeft--;
             this.countdownElement.textContent = this.formatTime(this.timeLeft);
-            this.startCountdown();
-          }, 1000);
-        }
-      }, 1000);
+            const progress = ((this.totalTime - this.timeLeft) / this.totalTime) * 100;
+            this.progressBar.style.width = `${progress}%`;
+
+            if (this.timeLeft <= 0) {
+                clearInterval(interval);
+                this.instanceCount++;
+                this.poolIdElement.textContent = this.getPoolId();
+                this.clearLabels(); // Clear combination labels
+
+                setTimeout(() => {
+                    this.timeLeft = this.totalTime;
+                    this.progressBar.style.width = '0%';
+                    this.countdownElement.textContent = this.formatTime(this.timeLeft);
+
+                    // Apply automated participation
+                    if (this.autoParticipationEnabled && this.autoParticipationCombination) {
+                        this.applyStoredCombination(this.autoParticipationCombination);
+                        this.showCombinationLabel();
+                    }
+
+                    this.startCountdown();
+                }, 1000);
+            }
+        }, 1000);
     }
 
     generateNumberButtons(containerId) {

@@ -1,26 +1,38 @@
 class CountdownTimer {
-    constructor(containerId, duration) {
+    constructor(containerId, duration, label) {
       // Select container and set timer properties
       this.container = document.getElementById(containerId);
-      this.duration = duration;
-      this.timeLeft = duration;
-      this.totalTime = duration;
+      this.duration = duration; // Countdown duration in seconds
+      this.timeLeft = duration; // Remaining time
+      this.totalTime = duration; // Total time for progress calculation
+      this.label = label; // Label for Pool unique ID
+      this.instanceCount = 0; // Start instance count at 0
   
       // Create HTML structure inside the container
       this.container.innerHTML = `
+        <!-- Pool unique ID -->
+        <div class="pool-id" id="${containerId}-pool-id">${this.getPoolId()}</div>
+        <!-- Participants -->
         <div class="participants" id="${containerId}-participants">Participants: 0</div>
+        <!-- Countdown Timer -->
         <div class="countdown" id="${containerId}-countdown">00:00:00:00</div>
+        <!-- Pool Prize -->
         <div class="pool-prize" id="${containerId}-pool-prize">Pool Prize 0</div>
+        <!-- Progress Bar -->
         <div class="progress-container">
           <div class="progress-bar" id="${containerId}-progress"></div>
         </div>
+        <!-- Divider -->
         <div class="divider"></div>
+        <!-- Headline -->
         <div class="pick-numbers">Pick Your 3 Numbers</div>
+        <!-- Number Buttons -->
         <div class="number-buttons" id="${containerId}-buttons"></div>
-        <!-- Input field for Total Tickets -->
+        <!-- Input and Button -->
         <div class="tickets-container" id="${containerId}-tickets-container" style="display: none;">
           <label for="${containerId}-tickets">Total Tickets:</label>
           <input type="number" id="${containerId}-tickets" value="1" min="1" />
+          <button class="btn-primary" id="${containerId}-join-pool">Join Pool with 1 USD</button>
         </div>
       `;
   
@@ -30,12 +42,22 @@ class CountdownTimer {
       // Select countdown and progress bar elements
       this.countdownElement = document.getElementById(`${containerId}-countdown`);
       this.progressBar = document.getElementById(`${containerId}-progress`);
+      this.poolIdElement = document.getElementById(`${containerId}-pool-id`);
   
       // Start the countdown
       this.startCountdown();
     }
   
-    // Function to format time as days:hours:minutes:seconds
+    /**
+     * Generate the Pool unique ID text
+     */
+    getPoolId() {
+      return `Pool unique ID: ${this.label} #${this.instanceCount}`;
+    }
+  
+    /**
+     * Format the remaining time as days:hours:minutes:seconds
+     */
     formatTime(seconds) {
       const days = Math.floor(seconds / (24 * 60 * 60));
       const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
@@ -45,19 +67,28 @@ class CountdownTimer {
       return `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
   
-    // Function to start the countdown timer
+    /**
+     * Start the countdown and reset when it reaches 0
+     */
     startCountdown() {
       const interval = setInterval(() => {
         this.timeLeft--;
   
-        // Update countdown and progress bar
+        // Update countdown display
         this.countdownElement.textContent = this.formatTime(this.timeLeft);
+  
+        // Update progress bar
         const progress = ((this.totalTime - this.timeLeft) / this.totalTime) * 100;
         this.progressBar.style.width = `${progress}%`;
   
         // Reset timer when it reaches 0
         if (this.timeLeft <= 0) {
           clearInterval(interval);
+  
+          // Increment instance count for the new loop
+          this.instanceCount++;
+          this.poolIdElement.textContent = this.getPoolId(); // Update Pool ID
+  
           setTimeout(() => {
             this.timeLeft = this.totalTime;
             this.progressBar.style.width = '0%';
@@ -68,73 +99,51 @@ class CountdownTimer {
       }, 1000); // Update every 1 second
     }
   
-    // Function to generate 60 circular number buttons dynamically
+    /**
+     * Generate 60 circular number buttons dynamically
+     */
     generateNumberButtons(containerId) {
       const buttonsContainer = document.getElementById(`${containerId}-buttons`);
       const ticketsContainer = document.getElementById(`${containerId}-tickets-container`);
       const ticketsInput = document.getElementById(`${containerId}-tickets`);
-      const selectedNumbers = []; // Array to keep track of selected numbers
+      const joinButton = document.getElementById(`${containerId}-join-pool`);
+      const selectedNumbers = []; // Store selected numbers
   
       for (let i = 1; i <= 60; i++) {
         const button = document.createElement('button');
         button.classList.add('number-button');
-        button.textContent = i; // Set button number
+        button.textContent = i;
   
-        // Add event listener for button selection
+        // Event listener for button selection
         button.addEventListener('click', () => {
-          // If button is already selected, deselect it
           if (button.classList.contains('selected')) {
             button.classList.remove('selected');
-            const index = selectedNumbers.indexOf(i); // Find index of number
-            if (index > -1) {
-              selectedNumbers.splice(index, 1); // Remove number from selected array
-            }
+            selectedNumbers.splice(selectedNumbers.indexOf(i), 1);
           } else if (selectedNumbers.length < 3) {
-            // Allow selection only if less than 3 numbers are picked
             button.classList.add('selected');
-            selectedNumbers.push(i); // Add number to selected array
+            selectedNumbers.push(i);
           }
   
-          // Disable remaining buttons if 3 numbers are selected
-          if (selectedNumbers.length === 3) {
-            const allButtons = document.querySelectorAll(`#${containerId}-buttons .number-button`);
-            allButtons.forEach((btn) => {
-              if (!btn.classList.contains('selected')) {
-                btn.disabled = true; // Disable unselected buttons
-              }
-            });
-            // Show total tickets input
-            ticketsContainer.style.display = 'block';
-          } else {
-            // Enable all buttons if less than 3 numbers are selected
-            const allButtons = document.querySelectorAll(`#${containerId}-buttons .number-button`);
-            allButtons.forEach((btn) => {
-              btn.disabled = false;
-            });
-            // Hide total tickets input
-            ticketsContainer.style.display = 'none';
-          }
+          // Show input and button if 3 numbers are selected
+          ticketsContainer.style.display = selectedNumbers.length === 3 ? 'flex' : 'none';
+          joinButton.textContent = `Join Pool with 1 USD`;
         });
   
-        // Append button to the container
         buttonsContainer.appendChild(button);
       }
   
-      // Add event listener to validate tickets input
       ticketsInput.addEventListener('input', () => {
-        const value = parseInt(ticketsInput.value);
-        if (isNaN(value) || value < 1 || !Number.isInteger(value)) {
-          ticketsInput.value = 1; // Reset to default value if invalid
-        }
+        let value = parseInt(ticketsInput.value);
+        joinButton.textContent = `Join Pool with ${value} USD`;
       });
     }
   }
   
-  // Create instances of CountdownTimer for each timer
-  new CountdownTimer('timer1', 60);                       // 1 minute
-  new CountdownTimer('timer2', 60 * 60);                  // 1 hour
-  new CountdownTimer('timer3', 24 * 60 * 60);             // 1 day
-  new CountdownTimer('timer4', 7 * 24 * 60 * 60);         // 1 week
-  new CountdownTimer('timer5', 30 * 24 * 60 * 60);        // 1 month
-  new CountdownTimer('timer6', 365 * 24 * 60 * 60);       // 1 year
+  // Create instances
+  new CountdownTimer('timer1', 60, '1 Minute');
+  new CountdownTimer('timer2', 60 * 60, '1 Hour');
   
+new CountdownTimer('timer3', 24 * 60 * 60, '1 Day');    // Timer 3: 1 day
+  new CountdownTimer('timer4', 7 * 24 * 60 * 60, '1 Week');         // 1 week
+  new CountdownTimer('timer5', 30 * 24 * 60 * 60, '1 Month');        // 1 month
+  new CountdownTimer('timer6', 365 * 24 * 60 * 60, '1 Year');       // 1 year

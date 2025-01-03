@@ -1,77 +1,96 @@
 // Global array to store combinations shared across all timers
 let globalCombinations = [];
+let selectedCombination = {}; // Track selected combination per dropdown
 
 class CountdownTimer {
     constructor(containerId, duration, label) {
-      // Select container and set timer properties
-      this.container = document.getElementById(containerId);
-      this.duration = duration; // Countdown duration in seconds
-      this.timeLeft = duration; // Remaining time
-      this.totalTime = duration; // Total time for progress calculation
-      this.label = label; // Label for Pool unique ID
-      this.instanceCount = 0; // Start instance count at 0
-      this.selectedNumbers = []; // Store selected numbers
+        // Select container and set timer properties
+        this.container = document.getElementById(containerId);
+        this.duration = duration; // Countdown duration in seconds
+        this.timeLeft = duration; // Remaining time
+        this.totalTime = duration; // Total time for progress calculation
+        this.label = label; // Label for Pool unique ID
+        this.instanceCount = 0; // Start instance count at 0
+        this.selectedNumbers = []; // Store selected numbers
 
-      // Create HTML structure inside the container
-      this.container.innerHTML = `
-  <!-- Pool Unique ID -->
-  <div class="pool-id" id="${containerId}-pool-id">${this.getPoolId()}</div>
-  <!-- Participants -->
-  <div class="participants" id="${containerId}-participants">Participants: 0</div>
-  <!-- Countdown Timer -->
-  <div class="countdown" id="${containerId}-countdown">00:00:00:00</div>
-  <!-- Pool Prize -->
-  <div class="pool-prize" id="${containerId}-pool-prize">Pool Prize 0</div>
-  <!-- Progress Bar -->
-  <div class="progress-container">
-    <div class="progress-bar" id="${containerId}-progress"></div>
-  </div>
-  <!-- Divider -->
-  <div class="divider"></div>
-  <!-- Row: Pick Your 3 Numbers and Dropdown -->
-  <div class="pick-numbers-container">
-    <!-- Left: Pick Your 3 Numbers -->
-    <div class="pick-numbers">Pick Your 3 Numbers</div>
-    <!-- Right: Dropdown for Stored Combinations -->
-    <div class="stored-combinations">
-      <label for="${containerId}-combinations">Stored Combinations:</label>
-      <select id="${containerId}-combinations">
-        <option value="none">Select</option>
-      </select>
-    </div>
-  </div>
-  <!-- Number Buttons -->
-  <div class="number-buttons" id="${containerId}-buttons"></div>
-  <!-- Input and Buttons -->
-  <div class="tickets-container" id="${containerId}-tickets-container" style="display: none;">
-    <!-- Store Combination Button -->
-    <button class="btn-secondary" id="${containerId}-store-combination">Store Combination</button>
-    <label for="${containerId}-tickets">Total Tickets:</label>
-    <input type="number" id="${containerId}-tickets" value="1" min="1" />
-    <button class="btn-primary" id="${containerId}-join-pool">Join Pool with 1 USD</button>
-  </div>
-`;
+        // Create HTML structure inside the container
+        this.container.innerHTML = `
+            <!-- Pool Unique ID -->
+            <div class="pool-id" id="${containerId}-pool-id">${this.getPoolId()}</div>
+            <!-- Participants -->
+            <div class="participants" id="${containerId}-participants">Participants: 0</div>
+            <!-- Countdown Timer -->
+            <div class="countdown" id="${containerId}-countdown">00:00:00:00</div>
+            <!-- Pool Prize -->
+            <div class="pool-prize" id="${containerId}-pool-prize">Pool Prize 0</div>
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="${containerId}-progress"></div>
+            </div>
+            <!-- Divider -->
+            <div class="divider"></div>
+            <!-- Row: Pick Your 3 Numbers and Dropdown -->
+            <div class="pick-numbers-container">
+                <!-- Left: Pick Your 3 Numbers -->
+                <div class="pick-numbers">Pick Your 3 Numbers</div>
+                <!-- Right: Dropdown for Stored Combinations -->
+                <div class="stored-combinations">
+                    <select id="${containerId}-combinations">
+                        <option value="none">Stored Combinations</option>
+                    </select>
+                    <!-- Remove Link -->
+                    <div class="remove-link" id="${containerId}-remove-link" style="display: none;">
+                        <img src="assets/bin.svg" alt="Remove" class="remove-icon" />
+                        <span>Remove this combination</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Number Buttons -->
+            <div class="number-buttons" id="${containerId}-buttons"></div>
+            <!-- Input and Buttons -->
+            <div class="tickets-container" id="${containerId}-tickets-container" style="display: none;">
+                <!-- Store Combination Button -->
+                <button class="btn-secondary" id="${containerId}-store-combination">Store Combination</button>
+                <label for="${containerId}-tickets">Total Tickets:</label>
+                <input type="number" id="${containerId}-tickets" value="1" min="1" />
+                <button class="btn-primary" id="${containerId}-join-pool">Join Pool with 1 USD</button>
+            </div>
+        `;
 
       // Generate number buttons dynamically
       this.generateNumberButtons(containerId);
 
       // Select elements
       this.countdownElement = document.getElementById(`${containerId}-countdown`);
-      this.progressBar = document.getElementById(`${containerId}-progress`);
-      this.poolIdElement = document.getElementById(`${containerId}-pool-id`);
-      this.storeButton = document.getElementById(`${containerId}-store-combination`);
-      this.dropdown = document.getElementById(`${containerId}-combinations`);
-      this.ticketsInput = document.getElementById(`${containerId}-tickets`);
+        this.progressBar = document.getElementById(`${containerId}-progress`);
+        this.poolIdElement = document.getElementById(`${containerId}-pool-id`);
+        this.storeButton = document.getElementById(`${containerId}-store-combination`);
+        this.dropdown = document.getElementById(`${containerId}-combinations`);
+        this.removeLink = document.getElementById(`${containerId}-remove-link`);
+        this.ticketsInput = document.getElementById(`${containerId}-tickets`);
 
-      // Populate dropdown initially with global combinations
-      this.updateAllDropdowns(); // <-- FIX to initialize dropdowns globally
-
+        // Populate dropdown initially with global combinations
+        this.updateAllDropdowns();
       // Start the countdown
       this.startCountdown();
 
       // Add event listener for store button
       this.storeButton.addEventListener('click', () => this.storeCombination());
-    }
+
+      // Handle dropdown change
+      this.dropdown.addEventListener('change', () => {
+          const selected = this.dropdown.value;
+          if (selected !== "none") {
+              this.removeLink.style.display = 'flex';
+              selectedCombination[containerId] = selected;
+
+              // Add click event to remove the combination
+              this.removeLink.addEventListener('click', () => this.removeCombination(containerId));
+          } else {
+              this.removeLink.style.display = 'none';
+          }
+      });
+  }
 
     getPoolId() {
       return `Pool unique ID: ${this.label} #${this.instanceCount}`;
@@ -151,16 +170,36 @@ class CountdownTimer {
     }
 
     updateAllDropdowns() {
-      const dropdowns = document.querySelectorAll('[id$="-combinations"]');
-      dropdowns.forEach(dropdown => {
-        dropdown.innerHTML = '<option value="none">Select</option>';
-        globalCombinations.forEach(combination => {
-          const option = document.createElement('option');
-          option.value = combination;
-          option.textContent = combination;
-          dropdown.appendChild(option);
+        const dropdowns = document.querySelectorAll('[id$="-combinations"]');
+        dropdowns.forEach(dropdown => {
+            dropdown.innerHTML = '<option value="none">Stored Combinations</option>';
+            globalCombinations.forEach(combination => {
+                const option = document.createElement('option');
+                option.value = combination;
+                option.textContent = combination;
+                dropdown.appendChild(option);
+            });
         });
-      });
+    }
+
+    removeCombination(containerId) {
+        const selected = selectedCombination[containerId];
+        if (selected) {
+            globalCombinations = globalCombinations.filter(combo => combo !== selected);
+            this.updateAllDropdowns();
+            this.removeLink.style.display = 'none';
+        }
+    }
+
+    storeCombination() {
+        const totalTickets = parseInt(this.ticketsInput.value);
+        const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USD`;
+        if (!globalCombinations.includes(combination)) {
+            globalCombinations.push(combination);
+            this.updateAllDropdowns();
+        } else {
+            alert('This combination already exists!');
+        }
     }
 }
 

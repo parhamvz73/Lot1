@@ -54,14 +54,16 @@
         <div class="pick-numbers">Pick Your 3 Numbers</div>
         <!-- Right: Dropdown for Stored Combinations -->
         <div class="stored-combinations">
-          <label for="combinations">Stored Combinations:</label>
-          <select id="combinations">
-            <option value="none">Select</option>
-            <option value="combo1">Combination 1</option>
-            <option value="combo2">Combination 2</option>
-            <option value="combo3">Combination 3</option>
-          </select>
-        </div>
+            <select class="combinations-dropdown">
+              <option value="none">Stored Combination</option>
+            </select>
+            <!-- Remove Link Placeholder -->
+            <div class="remove-link">
+              <img src="assets/bin.svg" alt="Remove" />
+              <span>Remove this combination</span>
+            </div>
+          </div>
+          
       </div>
       <!-- Buttons Container -->
       <div class="number-buttons"></div>

@@ -279,4 +279,41 @@ body {
     background-color: white;
     cursor: pointer;
   }
+  /* Dropdown Styling */
+.stored-combinations {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* Stack dropdown and remove link vertically */
+}
+
+/* Dropdown */
+.combinations-dropdown {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Remove Link Styling */
+.remove-link {
+    margin-top: 5px; /* Close to the dropdown */
+    color: red;
+    cursor: pointer;
+    font-size: 12px;
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: flex-start; /* Align link to the left */
+    align-self: flex-start; /* Make it right-aligned inside the container */
+}
+
+/* Remove Link Icon */
+.remove-link img {
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    filter: invert(23%) sepia(91%) saturate(7500%) hue-rotate(354deg) brightness(98%) contrast(120%);
+    cursor: pointer;
+}
   

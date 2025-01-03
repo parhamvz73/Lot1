@@ -316,4 +316,29 @@ body {
     filter: invert(23%) sepia(91%) saturate(7500%) hue-rotate(354deg) brightness(98%) contrast(120%);
     cursor: pointer;
 }
-  
+  /* Combination Labels */
+.combination-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.combination-label {
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.combination-label span {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}

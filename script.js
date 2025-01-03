@@ -27,6 +27,9 @@ class CountdownTimer {
             <div class="progress-container">
                 <div class="progress-bar" id="${containerId}-progress"></div>
             </div>
+            <!-- Combination Labels -->
+            <div class="combination-labels" id="${containerId}-labels"></div>
+            <!-- Divider -->
             <!-- Divider -->
             <div class="divider"></div>
             <!-- Row: Pick Your 3 Numbers and Dropdown -->
@@ -68,12 +71,15 @@ class CountdownTimer {
         this.dropdown = document.getElementById(`${containerId}-combinations`);
         this.removeLink = document.getElementById(`${containerId}-remove-link`);
         this.ticketsInput = document.getElementById(`${containerId}-tickets`);
+        this.labelsContainer = document.getElementById(`${containerId}-labels`);
 
         // Populate dropdown initially with global combinations
         this.updateAllDropdowns();
       // Start the countdown
       this.startCountdown();
-
+       // Join Pool Button
+       const joinButton = document.getElementById(`${containerId}-join-pool`);
+       joinButton.addEventListener('click', () => this.showCombinationLabel());
       // Add event listener for store button
       this.storeButton.addEventListener('click', () => this.storeCombination());
 
@@ -115,6 +121,7 @@ class CountdownTimer {
           clearInterval(interval);
           this.instanceCount++;
           this.poolIdElement.textContent = this.getPoolId();
+          this.clearLabels(); // Clear combination labels
           setTimeout(() => {
             this.timeLeft = this.totalTime;
             this.progressBar.style.width = '0%';
@@ -153,20 +160,38 @@ class CountdownTimer {
       }
     }
 
+    // Display combination label
+    showCombinationLabel() {
+        if (this.selectedNumbers.length === 3) {
+            const combination = this.selectedNumbers.sort((a, b) => a - b).join(',');
+
+            // Create a label
+            const label = document.createElement('div');
+            label.classList.add('combination-label');
+            label.textContent = combination;
+
+            // Append to labels container
+            this.labelsContainer.appendChild(label);
+        } else {
+            alert('Select 3 numbers first!');
+        }
+    }
+
+    // Clear combination labels when timer resets
+    clearLabels() {
+        this.labelsContainer.innerHTML = ''; // Remove all labels
+    }
+
+    // Store combinations globally
     storeCombination() {
-      if (this.selectedNumbers.length === 3) {
         const totalTickets = parseInt(this.ticketsInput.value);
         const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USD`;
-
         if (!globalCombinations.includes(combination)) {
-          globalCombinations.push(combination);
-          this.updateAllDropdowns();
+            globalCombinations.push(combination);
+            this.updateAllDropdowns();
         } else {
-          alert('This combination already exists!');
+            alert('This combination already exists!');
         }
-      } else {
-        alert('Please select 3 numbers first!');
-      }
     }
 
     updateAllDropdowns() {

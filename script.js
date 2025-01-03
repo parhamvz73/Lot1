@@ -17,6 +17,11 @@ class CountdownTimer {
         <div class="divider"></div>
         <div class="pick-numbers">Pick Your 3 Numbers</div>
         <div class="number-buttons" id="${containerId}-buttons"></div>
+        <!-- Input field for Total Tickets -->
+        <div class="tickets-container" id="${containerId}-tickets-container" style="display: none;">
+          <label for="${containerId}-tickets">Total Tickets:</label>
+          <input type="number" id="${containerId}-tickets" value="1" min="1" />
+        </div>
       `;
   
       // Generate number buttons dynamically
@@ -66,6 +71,8 @@ class CountdownTimer {
     // Function to generate 60 circular number buttons dynamically
     generateNumberButtons(containerId) {
       const buttonsContainer = document.getElementById(`${containerId}-buttons`);
+      const ticketsContainer = document.getElementById(`${containerId}-tickets-container`);
+      const ticketsInput = document.getElementById(`${containerId}-tickets`);
       const selectedNumbers = []; // Array to keep track of selected numbers
   
       for (let i = 1; i <= 60; i++) {
@@ -96,18 +103,30 @@ class CountdownTimer {
                 btn.disabled = true; // Disable unselected buttons
               }
             });
+            // Show total tickets input
+            ticketsContainer.style.display = 'block';
           } else {
             // Enable all buttons if less than 3 numbers are selected
             const allButtons = document.querySelectorAll(`#${containerId}-buttons .number-button`);
             allButtons.forEach((btn) => {
               btn.disabled = false;
             });
+            // Hide total tickets input
+            ticketsContainer.style.display = 'none';
           }
         });
   
         // Append button to the container
         buttonsContainer.appendChild(button);
       }
+  
+      // Add event listener to validate tickets input
+      ticketsInput.addEventListener('input', () => {
+        const value = parseInt(ticketsInput.value);
+        if (isNaN(value) || value < 1 || !Number.isInteger(value)) {
+          ticketsInput.value = 1; // Reset to default value if invalid
+        }
+      });
     }
   }
   

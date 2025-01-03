@@ -193,3 +193,20 @@ body {
     cursor: not-allowed;
   }
   
+  .tickets-container {
+    margin-top: 20px;
+    text-align: left;
+    color: white;
+  }
+  
+  .tickets-container label {
+    margin-right: 10px;
+  }
+  
+  .tickets-container input {
+    padding: 5px;
+    width: 60px;
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+  }
+  

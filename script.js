@@ -1,3 +1,6 @@
+// Global array to store combinations shared across all timers
+let globalCombinations = [];
+
 class CountdownTimer {
     constructor(containerId, duration, label) {
       // Select container and set timer properties
@@ -7,7 +10,6 @@ class CountdownTimer {
       this.totalTime = duration; // Total time for progress calculation
       this.label = label; // Label for Pool unique ID
       this.instanceCount = 0; // Start instance count at 0
-      this.storedCombinations = []; // Array to store combinations
       this.selectedNumbers = []; // Store selected numbers
 
       // Create HTML structure inside the container
@@ -61,6 +63,9 @@ class CountdownTimer {
       this.dropdown = document.getElementById(`${containerId}-combinations`);
       this.ticketsInput = document.getElementById(`${containerId}-tickets`);
 
+      // Populate dropdown initially with global combinations
+      this.updateAllDropdowns(); // <-- FIX to initialize dropdowns globally
+
       // Start the countdown
       this.startCountdown();
 
@@ -105,7 +110,7 @@ class CountdownTimer {
       const buttonsContainer = document.getElementById(`${containerId}-buttons`);
       const ticketsContainer = document.getElementById(`${containerId}-tickets-container`);
       const joinButton = document.getElementById(`${containerId}-join-pool`);
-      this.selectedNumbers = []; // Reset selected numbers
+      this.selectedNumbers = [];
 
       for (let i = 1; i <= 60; i++) {
         const button = document.createElement('button');
@@ -121,10 +126,6 @@ class CountdownTimer {
             this.selectedNumbers.push(i);
           }
 
-          buttonsContainer.querySelectorAll('.number-button').forEach(btn => {
-            btn.disabled = this.selectedNumbers.length === 3 && !btn.classList.contains('selected');
-          });
-
           ticketsContainer.style.display = this.selectedNumbers.length === 3 ? 'flex' : 'none';
           joinButton.textContent = `Join Pool with 1 USD`;
         });
@@ -134,39 +135,39 @@ class CountdownTimer {
     }
 
     storeCombination() {
-        if (this.selectedNumbers.length === 3) {
-          // Get the total tickets input value
-          const totalTickets = parseInt(this.ticketsInput.value);
-          
-          // Format the combination as: "16,28,54 - 2 USD"
-          const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USD`;
-      
-          // Check if the combination already exists in the dropdown
-          if (this.storedCombinations.includes(combination)) {
-            alert('This combination already exists!');
-            return; // Exit without adding a duplicate
-          }
-      
-          // Add the new combination to the stored combinations
-          this.storedCombinations.push(combination);
-      
-          // Create a new dropdown option
+      if (this.selectedNumbers.length === 3) {
+        const totalTickets = parseInt(this.ticketsInput.value);
+        const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USD`;
+
+        if (!globalCombinations.includes(combination)) {
+          globalCombinations.push(combination);
+          this.updateAllDropdowns();
+        } else {
+          alert('This combination already exists!');
+        }
+      } else {
+        alert('Please select 3 numbers first!');
+      }
+    }
+
+    updateAllDropdowns() {
+      const dropdowns = document.querySelectorAll('[id$="-combinations"]');
+      dropdowns.forEach(dropdown => {
+        dropdown.innerHTML = '<option value="none">Select</option>';
+        globalCombinations.forEach(combination => {
           const option = document.createElement('option');
           option.value = combination;
           option.textContent = combination;
-      
-          // Append the option to the dropdown
-          this.dropdown.appendChild(option);
-        } else {
-          alert('Please select 3 numbers first!');
-        }
-      }
+          dropdown.appendChild(option);
+        });
+      });
+    }
 }
 
-// Add back missing timers
+// Create all timers
 new CountdownTimer('timer1', 60, '1 Minute');
-new CountdownTimer('timer2', 60 * 60, '1 Hour');
-new CountdownTimer('timer3', 24 * 60 * 60, '1 Day');
-new CountdownTimer('timer4', 7 * 24 * 60 * 60, '1 Week');
-new CountdownTimer('timer5', 30 * 24 * 60 * 60, '1 Month');
-new CountdownTimer('timer6', 365 * 24 * 60 * 60, '1 Year');
+new CountdownTimer('timer2', 3600, '1 Hour');
+new CountdownTimer('timer3', 86400, '1 Day');
+new CountdownTimer('timer4', 604800, '1 Week');
+new CountdownTimer('timer5', 2592000, '1 Month');
+new CountdownTimer('timer6', 31536000, '1 Year');

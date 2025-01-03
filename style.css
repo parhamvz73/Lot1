@@ -1,10 +1,17 @@
 /* General Styles */
+/* Body Background Image */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+    background-image: url('assets/BG.png'); /* Path to your image */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-attachment: fixed; /* Keep the background fixed during scroll */
+}
+
   
   /* Sticky Header Styles */
   .sticky-header {

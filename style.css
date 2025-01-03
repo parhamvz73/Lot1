@@ -242,3 +242,34 @@ body {
 .participants {
     top: 40px; /* Positioned below Pool ID */
 }
+
+/* Container for Pick Numbers and Dropdown */
+.pick-numbers-container {
+    display: flex;
+    justify-content: space-between; /* Spread items to opposite ends */
+    align-items: center; /* Vertically align items */
+    margin-top: 10px;
+  }
+  
+  /* Pick Your 3 Numbers - Align left */
+  .pick-numbers {
+    font-size: 18px;
+    color: white;
+  }
+  
+  /* Dropdown Menu - Align right */
+  .stored-combinations label {
+    font-size: 16px;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .stored-combinations select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+  }
+  

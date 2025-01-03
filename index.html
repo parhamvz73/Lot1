@@ -3,16 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Countdown Timer with Progress Bar</title>
+  <title>Countdown Timer with Sticky Header</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <div id="countdown">60</div>
-    <div class="progress-container">
-      <div class="progress-bar" id="progress-bar"></div>
+  <!-- Sticky Header -->
+  <header class="sticky-header">
+    <div class="header-left">
+      <h1>Lottery 1</h1>
     </div>
+    <div class="header-right">
+      <button class="btn">Log In</button>
+      <button class="btn">Sign Up</button>
+    </div>
+  </header>
+
+  <!-- Countdown Timer Components -->
+  <div class="container">
+    <div class="countdown-wrapper" id="timer1"></div>
+    <div class="countdown-wrapper" id="timer2"></div>
+    <div class="countdown-wrapper" id="timer3"></div>
+    <div class="countdown-wrapper" id="timer4"></div>
+    <div class="countdown-wrapper" id="timer5"></div>
+    <div class="countdown-wrapper" id="timer6"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>

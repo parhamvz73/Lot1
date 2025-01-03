@@ -1,32 +1,106 @@
+/* General Styles */
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 50px;
-}
-
-.container {
-  width: 300px;
-  margin: 0 auto;
-}
-
-#countdown {
-  font-size: 48px;
-  margin-bottom: 20px;
-}
-
-.progress-container {
-  width: 100%;
-  background-color: #f3f3f3;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  height: 30px;
-  overflow: hidden;
-  position: relative;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background-color: #4caf50;
-  transition: width 1s linear;
-}
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Sticky Header Styles */
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    width: calc(100% - 192px); /* Full width with 96px margin on each side */
+    margin: 0 96px; /* 96px margin on left and right */
+    background-color: rgba(0, 0, 0, 0.8); /* Transparent black */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it stays on top */
+    border-radius: 10px; /* Match countdown-wrapper style */
+  }
+  
+  .header-left h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .header-right {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    background-color: #4caf50;
+    transition: background-color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Countdown Wrapper Styles */
+  .countdown-wrapper {
+    width: calc(100% - 192px); /* Full width with 96px margin on each side */
+    margin: 20px 96px; /* Top and bottom 20px, left and right 96px */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6); /* Transparent black background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow */
+    position: relative; /* Needed for positioning child elements */
+  }
+  
+  /* Participants text at top-left */
+  .participants {
+    font-size: 16px;
+    color: white;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  
+  /* Countdown at top-right */
+  .countdown {
+    font-size: 18px;
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  /* Pool Prize in the center top */
+  .pool-prize {
+    font-size: 36px; /* Twice as big as the countdown and participants */
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Progress bar styles */
+  .progress-container {
+    width: 100%;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 20px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 40px; /* Ensure it is spaced below the countdown */
+  }
+  
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4caf50;
+    transition: width 1s linear;
+  }
+  

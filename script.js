@@ -85,18 +85,56 @@ class CountdownTimer {
 
       // Handle dropdown change
       this.dropdown.addEventListener('change', () => {
-          const selected = this.dropdown.value;
-          if (selected !== "none") {
-              this.removeLink.style.display = 'flex';
-              selectedCombination[containerId] = selected;
-
-              // Add click event to remove the combination
-              this.removeLink.addEventListener('click', () => this.removeCombination(containerId));
-          } else {
-              this.removeLink.style.display = 'none';
-          }
-      });
+        const selected = this.dropdown.value;
+        if (selected !== "none") {
+            this.applyStoredCombination(selected); // Apply the combination
+            this.removeLink.style.display = 'flex';
+            selectedCombination[containerId] = selected;
+    
+            // Add click event to remove the combination
+            this.removeLink.addEventListener('click', () => this.removeCombination(containerId));
+        } else {
+            this.removeLink.style.display = 'none';
+        }
+    });
+    
   }
+  applyStoredCombination(combination) {
+    // Extract numbers and ticket count
+    const [numbers, tickets] = combination.split(' - ');
+    const selectedNumbers = numbers.split(',').map(Number); // Convert numbers to integers
+    const ticketCount = parseInt(tickets); // Extract ticket count
+
+    // Clear existing selections
+    this.selectedNumbers = [];
+
+    // Update number buttons
+    const buttons = this.container.querySelectorAll('.number-button');
+    buttons.forEach(button => {
+        const number = parseInt(button.textContent); // Get button number
+
+        // Highlight selected numbers
+        if (selectedNumbers.includes(number)) {
+            button.classList.add('selected');
+            if (!this.selectedNumbers.includes(number)) {
+                this.selectedNumbers.push(number); // Add to selected numbers
+            }
+        } else {
+            button.classList.remove('selected');
+        }
+    });
+
+    // Update ticket count
+    this.ticketsInput.value = ticketCount;
+
+    // Display tickets container
+    const ticketsContainer = document.getElementById(`${this.container.id}-tickets-container`);
+    ticketsContainer.style.display = 'flex';
+
+    // Update join pool button text
+    const joinButton = document.getElementById(`${this.container.id}-join-pool`);
+    joinButton.textContent = `Join Pool with ${ticketCount} USD`;
+}
 
     getPoolId() {
       return `Pool unique ID: ${this.label} #${this.instanceCount}`;

@@ -221,10 +221,21 @@ toggleAutoParticipation() {
                     this.countdownElement.textContent = this.formatTime(this.timeLeft);
             
                     // Apply automated participation
-                    if (this.autoParticipationEnabled && this.autoParticipationCombination) {
-                        this.applyStoredCombination(this.autoParticipationCombination);
-                        this.showCombinationLabel();
-                    }
+                    // Apply automated participation
+if (this.autoParticipationEnabled && this.autoParticipationCombination) {
+    this.applyStoredCombination(this.autoParticipationCombination);
+
+    // Extract numbers and tickets from the stored combination
+    const [numbers, tickets] = this.autoParticipationCombination.split(' - ');
+    const ticketCount = parseInt(tickets);
+
+    // Update prize pool dynamically for automated participation
+    this.updatePrizePool(ticketCount);
+
+    // Show combination label in the UI
+    this.showCombinationLabel();
+}
+
             
                     this.startCountdown();
                 }, 1000);
@@ -263,7 +274,13 @@ updatePrizePool(amount) {
           }
 
           ticketsContainer.style.display = this.selectedNumbers.length === 3 ? 'flex' : 'none';
-          joinButton.textContent = `Join Pool with 1 USDT`;
+
+// Maintain input value or default to 1
+const ticketCount = parseInt(this.ticketsInput.value) || 1;
+
+// Update button dynamically based on input value
+joinButton.textContent = `Join Pool with ${ticketCount} USD`;
+
         });
 
         buttonsContainer.appendChild(button);

@@ -432,19 +432,31 @@ body {
 /* Draw History Container */
 .draw-history {
     display: flex;
-    flex-direction: row-reverse; /* Show newest numbers first */
-    gap: 10px;
+    flex-direction: row; /* Ensure the numbers flow from left to right */
+    gap: 10px; /* Add spacing between draw boxes */
     margin-bottom: 10px;
+    flex-wrap: nowrap; /* Prevent wrapping to the next row */
+    overflow-x: auto; /* Enable horizontal scrolling if numbers exceed the width */
+    align-items: center; /* Vertically center align the boxes */
 }
 
 /* Style for each Draw Box */
 .draw-box {
-    background-color: #ccc; /* Gray background */
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
+    background-color: #bababa; /* Green background */
+    padding: 5px 15px; /* Padding for content spacing */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Slightly larger font for better visibility */
     font-weight: bold;
-    color: black;
-    text-align: center;
-    min-width: 60px;
+    color: rgb(0, 0, 0); /* White text for contrast */
+    text-align: center; /* Center align the text */
+    min-width: 60px; /* Fixed width for uniform size */
+    border: 1px solid #3a9d47; /* Slightly darker border for depth */
+    white-space: nowrap; /* Prevent line breaks */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for modern look */
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover Effect for Draw Box */
+.draw-box:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
 }

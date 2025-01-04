@@ -373,15 +373,32 @@ body {
     width: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+    position: relative; /* Ensure parent context */
+    overflow: visible; /* Prevent cropping */
 }
 
+/* Close Button Styles */
 .close-btn {
     position: absolute;
-    right: 15px;
     top: 10px;
-    font-size: 18px;
+    right: 10px;
     cursor: pointer;
+    z-index: 1000;
 }
+
+
+/* Close Icon Style */
+.close-icon {
+    width: 20px; /* Adjust width */
+    height: 20px; /* Adjust height */
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover Effect */
+.close-icon:hover {
+    transform: scale(1.2); /* Slightly enlarge the icon */
+}
+
 
 /* Wallet Button Styles */
 .wallet-btn {

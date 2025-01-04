@@ -13,6 +13,8 @@ class CountdownTimer {
         this.label = label; // Label for Pool unique ID
         this.instanceCount = 0; // Start instance count at 0
         this.selectedNumbers = []; // Store selected numbers
+        this.prizePoolAmount = 0; // Track prize pool amount
+
 
         // Automated participation variables
         this.autoParticipationEnabled = false; // Tracks if automated participation is enabled
@@ -64,7 +66,7 @@ class CountdownTimer {
                 <button class="btn-secondary" id="${containerId}-store-combination">Store Combination</button>
                 <label for="${containerId}-tickets">Total Tickets:</label>
                 <input type="number" id="${containerId}-tickets" value="1" min="1" />
-                <button class="btn-primary" id="${containerId}-join-pool">Join Pool with 1 USD</button>
+                <button class="btn-primary" id="${containerId}-join-pool">Join Pool with 1 USDT</button>
             </div>
         `;
 
@@ -88,7 +90,23 @@ class CountdownTimer {
       this.startCountdown();
        // Join Pool Button
        const joinButton = document.getElementById(`${containerId}-join-pool`);
-       joinButton.addEventListener('click', () => this.showCombinationLabel());
+       const ticketsInput = document.getElementById(`${containerId}-tickets`);
+
+// Update button text dynamically based on input field value
+ticketsInput.addEventListener('input', () => {
+    const value = parseInt(ticketsInput.value) || 1; // Default to 1 if empty or invalid
+    joinButton.textContent = `Join Pool with ${value} USDT`;
+});
+
+       joinButton.addEventListener('click', () => {
+        const amount = parseInt(this.ticketsInput.value); // Get the entered amount
+        if (amount > 0) {
+            this.updatePrizePool(amount); // Add to prize pool
+            this.showCombinationLabel(); // Show the combination label
+        } else {
+            alert('Enter a valid ticket amount!');
+        }
+    });
       // Add event listener for store button
       this.storeButton.addEventListener('click', () => this.storeCombination());
 
@@ -146,7 +164,7 @@ class CountdownTimer {
 
     // Update join pool button text
     const joinButton = document.getElementById(`${this.container.id}-join-pool`);
-    joinButton.textContent = `Join Pool with ${ticketCount} USD`;
+    joinButton.textContent = `Join Pool with ${ticketCount} USDT`;
 }
 
     getPoolId() {
@@ -191,23 +209,38 @@ toggleAutoParticipation() {
                 this.instanceCount++;
                 this.poolIdElement.textContent = this.getPoolId();
                 this.clearLabels(); // Clear combination labels
-
+            
+                // Reset the prize pool to 0
+                this.prizePoolAmount = 0;
+                const prizeElement = document.getElementById(`${this.container.id}-pool-prize`);
+                prizeElement.textContent = `Pool Prize 0 USDT`;
+            
                 setTimeout(() => {
                     this.timeLeft = this.totalTime;
                     this.progressBar.style.width = '0%';
                     this.countdownElement.textContent = this.formatTime(this.timeLeft);
-
+            
                     // Apply automated participation
                     if (this.autoParticipationEnabled && this.autoParticipationCombination) {
                         this.applyStoredCombination(this.autoParticipationCombination);
                         this.showCombinationLabel();
                     }
-
+            
                     this.startCountdown();
                 }, 1000);
             }
+            
         }, 1000);
     }
+     // Update the prize pool amount dynamically
+updatePrizePool(amount) {
+    // Add the entered amount to the prize pool
+    this.prizePoolAmount += amount;
+
+    // Update the pool prize display
+    const prizeElement = document.getElementById(`${this.container.id}-pool-prize`);
+    prizeElement.textContent = `Pool Prize ${this.prizePoolAmount} USDT`;
+}
 
     generateNumberButtons(containerId) {
       const buttonsContainer = document.getElementById(`${containerId}-buttons`);
@@ -230,7 +263,7 @@ toggleAutoParticipation() {
           }
 
           ticketsContainer.style.display = this.selectedNumbers.length === 3 ? 'flex' : 'none';
-          joinButton.textContent = `Join Pool with 1 USD`;
+          joinButton.textContent = `Join Pool with 1 USDT`;
         });
 
         buttonsContainer.appendChild(button);
@@ -262,7 +295,7 @@ toggleAutoParticipation() {
     // Store combinations globally
     storeCombination() {
         const totalTickets = parseInt(this.ticketsInput.value);
-        const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USD`;
+        const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USDT`;
         if (!globalCombinations.includes(combination)) {
             globalCombinations.push(combination);
             this.updateAllDropdowns();
@@ -295,7 +328,7 @@ toggleAutoParticipation() {
 
     storeCombination() {
         const totalTickets = parseInt(this.ticketsInput.value);
-        const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USD`;
+        const combination = `${this.selectedNumbers.sort((a, b) => a - b).join(',')} - ${totalTickets} USDT`;
         if (!globalCombinations.includes(combination)) {
             globalCombinations.push(combination);
             this.updateAllDropdowns();
@@ -316,6 +349,13 @@ new CountdownTimer('timer6', 31536000, '1 Year');
 const modal = document.getElementById('wallet-modal'); // Modal
 const closeModal = document.querySelector('.close-btn'); // Close Button
 const phantomBtn = document.getElementById('phantom-wallet-btn'); // Phantom Wallet Button
+// Select the close button with the new close icon
+const closeModalBtn = document.getElementById('close-modal-btn');
+
+// Close modal when clicking the close icon
+closeModalBtn.addEventListener('click', () => {
+    modal.style.display = 'none'; // Hide the modal
+});
 
 // Create Login and Signup Buttons Dynamically
 const loginBtn = document.createElement('button');
@@ -360,3 +400,43 @@ phantomBtn.addEventListener('click', () => {
     alert('Phantom wallet connection will be integrated later.');
     modal.style.display = 'none'; // Close modal after selecting Phantom
 });
+
+async function connectToPhantom() {
+    // Check if Phantom Wallet is installed
+    if (window.solana && window.solana.isPhantom) {
+        try {
+            // Attempt to connect to Phantom Wallet
+            const response = await window.solana.connect({ onlyIfTrusted: false });
+            const walletAddress = response.publicKey.toString(); // Get connected wallet address
+            
+            // Alert the connected address or use it in your app
+            alert(`Connected to Phantom Wallet: ${walletAddress}`);
+            
+            // Log the wallet address
+            console.log('Connected Wallet:', walletAddress);
+
+            // Close modal after connection
+            modal.style.display = 'none';
+        } catch (err) {
+            console.error('Connection failed!', err);
+            alert('Failed to connect to Phantom Wallet!');
+        }
+    } else {
+        // Show alert if Phantom is not installed
+        alert('Phantom Wallet not installed! Please install it from https://phantom.app/');
+    }
+}
+
+// Add Phantom Wallet Event Listeners
+if (window.solana && window.solana.isPhantom) {
+    window.solana.on("connect", () => {
+        console.log("Wallet connected!");
+    });
+
+    window.solana.on("disconnect", () => {
+        console.log("Wallet disconnected!");
+    });
+}
+
+// Add event listener to Phantom wallet button
+phantomBtn.addEventListener('click', connectToPhantom);

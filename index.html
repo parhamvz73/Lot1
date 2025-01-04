@@ -16,7 +16,7 @@
 
     <!-- Centered Balance and Buttons -->
     <div class="header-center">
-      <div class="balance-text">Your Balance: 0 USD</div>
+      <div class="balance-text">Your Balance: 0 USDT</div>
       <div class="button-group">
         <button class="btn-secondary">Deposit</button>
         <button class="btn-secondary">Withdraw</button>
@@ -73,7 +73,7 @@
       <div class="tickets-container" style="display: none;">
         <label for="tickets">Total Tickets:</label>
         <input type="number" id="tickets" value="1" min="1" />
-        <button class="btn-primary">Join Pool with 1 USD</button>
+        <button class="btn-primary">Join Pool with 1 USDT</button>
       </div>
     </div>
 
@@ -88,7 +88,11 @@
 <div id="wallet-modal" class="modal">
     <div class="modal-content">
       <!-- Close Button -->
-      <span class="close-btn">&times;</span>
+      <!-- Close Button with Icon -->
+<div class="close-btn" id="close-modal-btn">
+    <img src="assets/close.svg" alt="Close" class="close-icon" />
+</div>
+
   
       <!-- Modal Header -->
       <h2>Connect Your Wallet</h2>

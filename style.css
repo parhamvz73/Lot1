@@ -352,3 +352,63 @@ body {
     color: red;
     font-weight: bold;
 }
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #f9f9f9;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Wallet Button Styles */
+.wallet-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 20px;
+    margin: 15px 0;
+    border: 1px solid #7667b7;
+    background-color: #9886e5;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wallet-btn:hover {
+    border: 1px solid #5a4f8d;
+    box-shadow: 0 4px 10px rgba(152, 134, 229, 0.7); /* Drop shadow effect */
+    transform: translateY(-2px); /* Slight upward movement for animation */
+}
+
+/* Wallet Icon */
+.wallet-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}

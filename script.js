@@ -312,3 +312,51 @@ new CountdownTimer('timer3', 86400, '1 Day');
 new CountdownTimer('timer4', 604800, '1 Week');
 new CountdownTimer('timer5', 2592000, '1 Month');
 new CountdownTimer('timer6', 31536000, '1 Year');
+// Modal Elements
+const modal = document.getElementById('wallet-modal'); // Modal
+const closeModal = document.querySelector('.close-btn'); // Close Button
+const phantomBtn = document.getElementById('phantom-wallet-btn'); // Phantom Wallet Button
+
+// Create Login and Signup Buttons Dynamically
+const loginBtn = document.createElement('button');
+loginBtn.textContent = 'Log In';
+loginBtn.id = 'login-btn';
+loginBtn.classList.add('btn');
+
+const signupBtn = document.createElement('button');
+signupBtn.textContent = 'Sign Up';
+signupBtn.id = 'signup-btn';
+signupBtn.classList.add('btn');
+
+// Append Buttons to Header
+const headerRight = document.querySelector('.header-right');
+headerRight.appendChild(loginBtn);
+headerRight.appendChild(signupBtn);
+
+// Show Modal
+function openModal() {
+    modal.style.display = 'block';
+}
+
+// Hide Modal
+function closeModalHandler() {
+    modal.style.display = 'none';
+}
+
+// Close Modal when clicking outside the modal
+window.onclick = function (event) {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+};
+
+// Event Listeners
+loginBtn.addEventListener('click', openModal); // Open modal on Login
+signupBtn.addEventListener('click', openModal); // Open modal on Signup
+closeModal.addEventListener('click', closeModalHandler); // Close modal on X click
+
+// Handle Phantom Wallet Connection (Placeholder for Integration)
+phantomBtn.addEventListener('click', () => {
+    alert('Phantom wallet connection will be integrated later.');
+    modal.style.display = 'none'; // Close modal after selecting Phantom
+});

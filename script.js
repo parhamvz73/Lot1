@@ -30,6 +30,8 @@ class CountdownTimer {
             <div class="countdown" id="${containerId}-countdown">00:00:00:00</div>
             <!-- Pool Prize -->
             <div class="pool-prize" id="${containerId}-pool-prize">Pool Prize 0</div>
+            <!-- Draw History Container -->
+            <div class="draw-history" id="${containerId}-draw-history"></div>
             <!-- Progress Bar -->
             <div class="progress-container">
                 <div class="progress-bar" id="${containerId}-progress"></div>
@@ -92,7 +94,7 @@ class CountdownTimer {
        const joinButton = document.getElementById(`${containerId}-join-pool`);
        const ticketsInput = document.getElementById(`${containerId}-tickets`);
 
-// Update button text dynamically based on input field value
+       // Update button text dynamically based on input field value
 ticketsInput.addEventListener('input', () => {
     const value = parseInt(ticketsInput.value) || 1; // Default to 1 if empty or invalid
     joinButton.textContent = `Join Pool with ${value} USDT`;
@@ -214,7 +216,11 @@ toggleAutoParticipation() {
                 this.prizePoolAmount = 0;
                 const prizeElement = document.getElementById(`${this.container.id}-pool-prize`);
                 prizeElement.textContent = `Pool Prize 0 USDT`;
-            
+                // **Draw Random Numbers and Display Them**
+    const drawnNumbers = this.generateRandomNumbers(); // Generate 3 numbers
+    this.displayDrawnNumbers(drawnNumbers); // Show numbers in UI
+
+    
                 setTimeout(() => {
                     this.timeLeft = this.totalTime;
                     this.progressBar.style.width = '0%';
@@ -353,6 +359,30 @@ joinButton.textContent = `Join Pool with ${ticketCount} USD`;
             alert('This combination already exists!');
         }
     }
+    // Generate 3 unique random numbers between 1 and 60
+generateRandomNumbers() {
+    const numbers = [];
+    while (numbers.length < 3) {
+        const num = Math.floor(Math.random() * 60) + 1; // Random number between 1–60
+        if (!numbers.includes(num)) {
+            numbers.push(num);
+        }
+    }
+    return numbers.sort((a, b) => a - b); // Sort in ascending order
+}
+// Display the drawn numbers in a gray box at the top
+displayDrawnNumbers(numbers) {
+    const drawHistory = document.getElementById(`${this.container.id}-draw-history`);
+
+    // Create a gray box for the drawn numbers
+    const drawBox = document.createElement('div');
+    drawBox.classList.add('draw-box');
+    drawBox.textContent = numbers.join(", "); // Show numbers sorted
+
+    // Add the new draw box to the history (prepend to show newest first)
+    drawHistory.prepend(drawBox);
+}
+
 }
 
 // Create all timers

@@ -429,3 +429,22 @@ body {
     height: 24px;
     margin-right: 10px;
 }
+/* Draw History Container */
+.draw-history {
+    display: flex;
+    flex-direction: row-reverse; /* Show newest numbers first */
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style for each Draw Box */
+.draw-box {
+    background-color: #ccc; /* Gray background */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    min-width: 60px;
+}

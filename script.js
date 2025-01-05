@@ -1,6 +1,16 @@
 // Global array to store combinations shared across all timers
 let globalCombinations = [];
 let selectedCombination = {}; // Track selected combination per dropdown
+let userBalance = 100; // Starting balance
+
+// Update balance display
+function updateBalanceDisplay() {
+    const balanceText = document.querySelector('.balance-text');
+    balanceText.textContent = `Your Balance: ${userBalance} USDT`;
+}
+
+// Call this initially to display the balance
+updateBalanceDisplay();
 
 
 class CountdownTimer {
@@ -102,12 +112,17 @@ ticketsInput.addEventListener('input', () => {
 
        joinButton.addEventListener('click', () => {
         const amount = parseInt(this.ticketsInput.value); // Get the entered amount
-        if (amount > 0) {
+        if (amount > 0 && userBalance >= amount) {
             this.updatePrizePool(amount); // Add to prize pool
             this.showCombinationLabel(); // Show the combination label
-        } else {
-            alert('Enter a valid ticket amount!');
-        }
+            // Deduct the amount from the balance
+        userBalance -= amount;
+        updateBalanceDisplay(); // Update balance in the header
+    } else if (userBalance < amount) {
+        alert('Insufficient balance to join the pool!');
+    } else {
+        alert('Enter a valid ticket amount!');
+    }
     });
       // Add event listener for store button
       this.storeButton.addEventListener('click', () => this.storeCombination());
@@ -234,12 +249,23 @@ if (this.autoParticipationEnabled && this.autoParticipationCombination) {
     // Extract numbers and tickets from the stored combination
     const [numbers, tickets] = this.autoParticipationCombination.split(' - ');
     const ticketCount = parseInt(tickets);
+    
+    // Check if user has enough balance
+    if (userBalance >= ticketCount) {
+        // Deduct balance for automated participation
+        userBalance -= ticketCount;
+        updateBalanceDisplay(); // Update balance display
 
-    // Update prize pool dynamically for automated participation
-    this.updatePrizePool(ticketCount);
-
-    // Show combination label in the UI
-    this.showCombinationLabel();
+        // Update prize pool dynamically
+        this.updatePrizePool(ticketCount);
+        this.showCombinationLabel(); // Show label
+    } else {
+        // If balance is not enough, disable automated participation
+        alert('Insufficient balance for automated participation! Disabling it.');
+        this.autoParticipationEnabled = false; // Disable auto participation
+        this.autoParticipationLink.style.color = 'yellow';
+        this.autoParticipationLink.textContent = 'Automated Participation';
+    }
 }
 
             

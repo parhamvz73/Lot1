@@ -253,10 +253,9 @@ toggleAutoParticipation() {
     
                 setTimeout(() => {
                     this.timeLeft = this.totalTime;
-                    this.progressBar.style.width = '0%';
-                    this.countdownElement.textContent = this.formatTime(this.timeLeft);
-            
-                    // Apply automated participation
+this.progressBar.style.width = '0%';
+const timerText = document.getElementById(`${this.container.id}-countdown-text`);
+timerText.textContent = this.formatTime(this.timeLeft);
                     // Apply automated participation
 if (this.autoParticipationEnabled && this.autoParticipationCombination) {
     this.applyStoredCombination(this.autoParticipationCombination);
@@ -287,7 +286,8 @@ if (this.autoParticipationEnabled && this.autoParticipationCombination) {
 }
 
             
-                    this.startCountdown();
+                    // Restart the countdown immediately
+this.startCountdown(); // Restart the interval loop
                 }, 1000);
             }
             
@@ -337,22 +337,36 @@ joinButton.textContent = `Join Pool with ${ticketCount} USD`;
       }
     }
 
-    // Display combination label
-    showCombinationLabel() {
-        if (this.selectedNumbers.length === 3) {
-            const combination = this.selectedNumbers.sort((a, b) => a - b).join(',');
+    // Display combination label with Ticket Icon
+showCombinationLabel() {
+    if (this.selectedNumbers.length === 3) {
+        const combination = this.selectedNumbers.sort((a, b) => a - b).join(',');
 
-            // Create a label
-            const label = document.createElement('div');
-            label.classList.add('combination-label');
-            label.textContent = combination;
+        // Create a container for the label
+        const label = document.createElement('div');
+        label.classList.add('combination-label'); // Apply the CSS for labels
 
-            // Append to labels container
-            this.labelsContainer.appendChild(label);
-        } else {
-            alert('Select 3 numbers first!');
-        }
+        // Create the ticket icon
+        const icon = document.createElement('img');
+        icon.src = 'assets/ticket.svg'; // Path to the ticket icon
+        icon.alt = 'Ticket';
+        icon.classList.add('ticket-icon'); // Apply the CSS for the ticket icon
+
+        // Create text for the numbers
+        const text = document.createElement('span');
+        text.textContent = combination; // Display numbers
+
+        // Append the icon and text inside the label
+        label.appendChild(icon);
+        label.appendChild(text);
+
+        // Append the label to the labels container
+        this.labelsContainer.appendChild(label);
+    } else {
+        alert('Select 3 numbers first!');
     }
+}
+
 
     // Clear combination labels when timer resets
     clearLabels() {
@@ -418,14 +432,28 @@ generateRandomNumbers() {
 displayDrawnNumbers(numbers) {
     const drawHistory = document.getElementById(`${this.container.id}-draw-history`);
 
-    // Create a gray box for the drawn numbers
+    // Create a container for the icon and numbers
     const drawBox = document.createElement('div');
     drawBox.classList.add('draw-box');
-    drawBox.textContent = numbers.join(", "); // Show numbers sorted
+
+    // Add the dice icon
+    const icon = document.createElement('img');
+    icon.src = 'assets/dice.svg'; // Path to the dice icon
+    icon.alt = 'Dice';
+    icon.classList.add('dice-icon'); // Apply the CSS for the dice icon
+
+    // Create a span for the drawn numbers
+    const numbersText = document.createElement('span');
+    numbersText.textContent = numbers.join(", "); // Show numbers sorted
+
+    // Append the icon and numbers to the drawBox
+    drawBox.appendChild(icon);
+    drawBox.appendChild(numbersText);
 
     // Add the new draw box to the history (prepend to show newest first)
     drawHistory.prepend(drawBox);
 }
+
 updateParticipantsDisplay() {
     const participantsText = document.getElementById(`${this.container.id}-participants-text`);
     participantsText.textContent = `Participants: ${this.participantsCount}`;

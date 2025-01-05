@@ -36,9 +36,16 @@ class CountdownTimer {
             <!-- Pool Unique ID -->
             <div class="pool-id" id="${containerId}-pool-id">${this.getPoolId()}</div>
             <!-- Participants -->
-            <div class="participants" id="${containerId}-participants">Participants: 0</div>
+            <div class="participants">
+            <img src="assets/users.svg" alt="Users" class="users-icon" />
+            <span id="${containerId}-participants-text">Participants: 0</span>
+            </div>
+            </div>
             <!-- Countdown Timer -->
-            <div class="countdown" id="${containerId}-countdown">00:00:00:00</div>
+            <div class="countdown">
+            <img src="assets/timer.svg" alt="Timer" class="timer-icon" />
+            <span id="${containerId}-countdown-text">00:00:00:00</span>
+            </div>
             <!-- Pool Prize -->
             <div class="pool-prize" id="${containerId}-pool-prize">Pool Prize 0</div>
             <!-- Draw History Container -->
@@ -221,7 +228,8 @@ toggleAutoParticipation() {
     startCountdown() {
         const interval = setInterval(() => {
             this.timeLeft--;
-            this.countdownElement.textContent = this.formatTime(this.timeLeft);
+            const timerText = document.getElementById(`${this.container.id}-countdown-text`);
+            timerText.textContent = this.formatTime(this.timeLeft);
             const progress = ((this.totalTime - this.timeLeft) / this.totalTime) * 100;
             this.progressBar.style.width = `${progress}%`;
 
@@ -419,8 +427,8 @@ displayDrawnNumbers(numbers) {
     drawHistory.prepend(drawBox);
 }
 updateParticipantsDisplay() {
-    const participantsElement = document.getElementById(`${this.container.id}-participants`);
-    participantsElement.textContent = `Participants: ${this.participantsCount}`;
+    const participantsText = document.getElementById(`${this.container.id}-participants-text`);
+    participantsText.textContent = `Participants: ${this.participantsCount}`;
 }
 
 }

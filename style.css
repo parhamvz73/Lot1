@@ -460,3 +460,27 @@ body {
 .draw-box:hover {
     transform: scale(1.1); /* Slightly enlarge on hover */
 }
+.participants {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically align items */
+  gap: 5px; /* Add spacing between icon and text */
+}
+
+.users-icon {
+  width: 16px;
+  height: 16px;
+  filter: invert(100%); /* Make it white */
+}
+
+.countdown {
+  display: flex; /* Use flexbox to align the icon and text */
+  align-items: center; /* Align vertically */
+  gap: 5px; /* Add spacing between icon and text */
+}
+
+.timer-icon {
+  width: 16px;
+  height: 16px;
+  filter: invert(100%); /* Make it white */
+}
+

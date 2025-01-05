@@ -185,7 +185,7 @@ ticketsInput.addEventListener('input', () => {
 }
 
     getPoolId() {
-      return `Pool unique ID: ${this.label} #${this.instanceCount}`;
+      return `Pool unique ID: ${this.label}${this.instanceCount}`;
     }
 
     formatTime(seconds) {
@@ -412,12 +412,12 @@ displayDrawnNumbers(numbers) {
 }
 
 // Create all timers
-new CountdownTimer('timer1', 60, '1 Minute');
-new CountdownTimer('timer2', 3600, '1 Hour');
-new CountdownTimer('timer3', 86400, '1 Day');
-new CountdownTimer('timer4', 604800, '1 Week');
-new CountdownTimer('timer5', 2592000, '1 Month');
-new CountdownTimer('timer6', 31536000, '1 Year');
+new CountdownTimer('timer1', 60, '1', 10);         // Starts at #10
+new CountdownTimer('timer2', 3600, '60', 600);     // Starts at #600
+new CountdownTimer('timer3', 86400, '24', 240);    // Starts at #240
+new CountdownTimer('timer4', 604800, '7', 70);     // Starts at #70
+new CountdownTimer('timer5', 2592000, '30', 300);  // Starts at #300
+new CountdownTimer('timer6', 31536000, '12', 120); // Starts at #120
 // Modal Elements
 const modal = document.getElementById('wallet-modal'); // Modal
 const closeModal = document.querySelector('.close-btn'); // Close Button

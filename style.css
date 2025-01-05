@@ -88,7 +88,7 @@ body {
   /* Countdown Wrapper Styles */
   .countdown-wrapper {
     width: calc(100% - 192px); /* Full width with 96px margin on each side */
-    margin: 20px 96px; /* Top and bottom 20px, left and right 96px */
+    margin: 40px 96px; /* Top and bottom 20px, left and right 96px */
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6); /* Transparent black background */
     border-radius: 10px; /* Rounded corners */
@@ -121,36 +121,7 @@ body {
     text-align: center;
     margin-bottom: 20px;
   } 
-  .progress-container {
-    width: 100%;
-    height: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Soft shadow */
-}
   
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    border-radius: 20px;
-    background: linear-gradient(
-    to right,
-    #ffffff 0%,
-    #4caf50 100%
-);
-    animation: glowing 1.5s infinite alternate; /* Glow effect */
-    transition: width 1s linear;
-  }
-  @keyframes glowing {
-    0% {
-        box-shadow: 0 0 10px #4caf50;
-    }
-    100% {
-        box-shadow: 0 0 20px #b1e9b4;
-    }
-}
   /* Divider Line */
 .divider {
     width: 100%;
@@ -509,4 +480,76 @@ body {
 /* Apply animation effect */
 .highlight {
   animation: highlight 0.5s ease-in-out; /* Animation duration */
+}
+/* Neon Glow Colors for Countdown Wrappers */
+.countdown-wrapper:nth-child(1) {
+  box-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f; /* Pink Neon */
+  border: 1px solid #ff007f;
+}
+
+.countdown-wrapper:nth-child(2) {
+  box-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea; /* Cyan Neon */
+  border: 1px solid #00ffea;
+}
+
+.countdown-wrapper:nth-child(3) {
+  box-shadow: 0 0 5px #ffea00, 0 0 10px #ffea00; /* Yellow Neon */
+  border: 1px solid #ffea00;
+}
+
+.countdown-wrapper:nth-child(4) {
+  box-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00; /* Green Neon */
+  border: 1px solid #00ff00;
+}
+
+.countdown-wrapper:nth-child(5) {
+  box-shadow: 0 0 5px #8a2be2, 0 0 10px #8a2be2; /* Purple Neon */
+  border: 1px solid #8a2be2;
+}
+
+.countdown-wrapper:nth-child(6) {
+  box-shadow: 0 0 5px #ff4500, 0 0 10px #ff4500; /* Orange Neon */
+  border: 1px solid #ff4500;
+}
+
+/* Progress Bar Styling */
+.progress-container {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Soft shadow */
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 20px;
+  transition: width 1s linear;
+}
+
+/* Match Progress Bar Colors with Countdown Wrappers */
+.countdown-wrapper:nth-child(1) .progress-bar {
+  background: linear-gradient(to right, #ff007f, #ff007f); /* Pink */
+}
+
+.countdown-wrapper:nth-child(2) .progress-bar {
+  background: linear-gradient(to right, #00ffea, #00ffea); /* Cyan */
+}
+
+.countdown-wrapper:nth-child(3) .progress-bar {
+  background: linear-gradient(to right, #ffea00, #ffea00); /* Yellow */
+}
+
+.countdown-wrapper:nth-child(4) .progress-bar {
+  background: linear-gradient(to right, #00ff00, #00ff00); /* Green */
+}
+
+.countdown-wrapper:nth-child(5) .progress-bar {
+  background: linear-gradient(to right, #8a2be2, #8a2be2); /* Purple */
+}
+
+.countdown-wrapper:nth-child(6) .progress-bar {
+  background: linear-gradient(to right, #ff4500, #ff4500); /* Orange */
 }

@@ -494,3 +494,19 @@ body {
   filter: invert(100%); /* Make it white */
 }
 
+/* Animation for pool prize highlight */
+@keyframes highlight {
+  0% {
+      color: #4caf50; /* Green color */
+      transform: scale(1.1); /* Slightly larger size */
+  }
+  100% {
+      color: white; /* Back to white */
+      transform: scale(1); /* Normal size */
+  }
+}
+
+/* Apply animation effect */
+.highlight {
+  animation: highlight 0.5s ease-in-out; /* Animation duration */
+}

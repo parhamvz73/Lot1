@@ -301,6 +301,13 @@ updatePrizePool(amount) {
     // Update the pool prize display
     const prizeElement = document.getElementById(`${this.container.id}-pool-prize`);
     prizeElement.textContent = `Pool Prize ${this.prizePoolAmount} USDT`;
+// Add the highlight class for animation
+prizeElement.classList.add('highlight');
+
+// Remove the highlight class after 500ms (match animation duration)
+setTimeout(() => {
+    prizeElement.classList.remove('highlight');
+}, 500);
 }
 
     generateNumberButtons(containerId) {
@@ -457,6 +464,13 @@ displayDrawnNumbers(numbers) {
 updateParticipantsDisplay() {
     const participantsText = document.getElementById(`${this.container.id}-participants-text`);
     participantsText.textContent = `Participants: ${this.participantsCount}`;
+// Add the highlight class for animation
+participantsText.classList.add('highlight');
+
+// Remove the highlight class after 500ms (match animation duration)
+setTimeout(() => {
+    participantsText.classList.remove('highlight');
+}, 500);
 }
 
 }

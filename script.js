@@ -22,6 +22,7 @@ class CountdownTimer {
         this.totalTime = duration; // Total time for progress calculation
         this.label = label; // Label for Pool unique ID
         this.instanceCount = 0; // Start instance count at 0
+        this.participantsCount = 0; // Tracks participants for each pool
         this.selectedNumbers = []; // Store selected numbers
         this.prizePoolAmount = 0; // Track prize pool amount
 
@@ -118,6 +119,9 @@ ticketsInput.addEventListener('input', () => {
             // Deduct the amount from the balance
         userBalance -= amount;
         updateBalanceDisplay(); // Update balance in the header
+        // **Increment Participants Count**
+        this.participantsCount++;
+        this.updateParticipantsDisplay(); // Update the UI
     } else if (userBalance < amount) {
         alert('Insufficient balance to join the pool!');
     } else {
@@ -225,6 +229,9 @@ toggleAutoParticipation() {
                 clearInterval(interval);
                 this.instanceCount++;
                 this.poolIdElement.textContent = this.getPoolId();
+                // **RESET Participants Count**
+                this.participantsCount = 0; // Reset to 0
+                this.updateParticipantsDisplay(); // Update UI to show reset value
                 this.clearLabels(); // Clear combination labels
             
                 // Reset the prize pool to 0
@@ -259,6 +266,9 @@ if (this.autoParticipationEnabled && this.autoParticipationCombination) {
         // Update prize pool dynamically
         this.updatePrizePool(ticketCount);
         this.showCombinationLabel(); // Show label
+        // **Increment Participants Count for Automated Participation**
+        this.participantsCount++;
+        this.updateParticipantsDisplay(); // Update UI
     } else {
         // If balance is not enough, disable automated participation
         alert('Insufficient balance for automated participation! Disabling it.');
@@ -407,6 +417,10 @@ displayDrawnNumbers(numbers) {
 
     // Add the new draw box to the history (prepend to show newest first)
     drawHistory.prepend(drawBox);
+}
+updateParticipantsDisplay() {
+    const participantsElement = document.getElementById(`${this.container.id}-participants`);
+    participantsElement.textContent = `Participants: ${this.participantsCount}`;
 }
 
 }

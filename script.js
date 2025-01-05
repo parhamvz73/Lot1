@@ -32,7 +32,7 @@ class CountdownTimer {
         this.autoParticipationCombination = null; // Stores combination for automated participation
 
         // Create HTML structure inside the container
-        this.container.innerHTML = `
+        this.container.querySelector('.dynamic-content').innerHTML = `
             <!-- Pool Unique ID -->
             <div class="pool-id" id="${containerId}-pool-id">${this.getPoolId()}</div>
             <!-- Participants -->

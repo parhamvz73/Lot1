@@ -553,3 +553,55 @@ body {
 .countdown-wrapper:nth-child(6) .progress-bar {
   background: linear-gradient(to right, #ff4500, #ff4500); /* Orange */
 }
+/* Lottery Badge */
+.lottery-badge {
+  position: absolute; /* Fixed at the top */
+  top: -12px; /* Slightly above the container */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Align to center */
+  padding: 5px 15px; /* Padding for pill shape */
+  font-size: 14px; /* Font size */
+  font-weight: bold; /* Bold text */
+  border-radius: 20px; /* Rounded pill shape */
+  color: white; /* White text */
+  text-align: center;
+  z-index: 10; /* Ensure it’s above other elements */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+/* Neon Colors Matching Countdown Wrapper */
+/* Timer 1 - Pink Neon */
+#timer1 .lottery-badge {
+  background-color: #ff007f; /* Pink Neon Color */
+  box-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f; /* Neon Glow Effect */
+}
+
+/* Timer 2 - Cyan Neon */
+#timer2 .lottery-badge {
+  background-color: #00ffea; /* Cyan Neon Color */
+  box-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea; /* Neon Glow Effect */
+}
+
+/* Timer 3 - Yellow Neon */
+#timer3 .lottery-badge {
+  background-color: #ffea00; /* Yellow Neon Color */
+  box-shadow: 0 0 5px #ffea00, 0 0 10px #ffea00; /* Neon Glow Effect */
+}
+
+/* Timer 4 - Green Neon */
+#timer4 .lottery-badge {
+  background-color: #00ff00; /* Green Neon Color */
+  box-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00; /* Neon Glow Effect */
+}
+
+/* Timer 5 - Purple Neon */
+#timer5 .lottery-badge {
+  background-color: #8a2be2; /* Purple Neon Color */
+  box-shadow: 0 0 5px #8a2be2, 0 0 10px #8a2be2; /* Neon Glow Effect */
+}
+
+/* Timer 6 - Orange Neon */
+#timer6 .lottery-badge {
+  background-color: #ff4500; /* Orange Neon Color */
+  box-shadow: 0 0 5px #ff4500, 0 0 10px #ff4500; /* Neon Glow Effect */
+}

@@ -52,9 +52,14 @@ class CountdownTimer {
 <div class="draw-history-section">
     <!-- Headline -->
     <div class="draw-history-title">Previous Drawn Numbers</div>
-    <!-- Draw History Container -->
-    <div class="draw-history" id="${containerId}-draw-history"></div>
+    <!-- Tertiary Button at the Right -->
+    <button class="btn-tertiary">
+        <img src="assets/history.svg" alt="History" class="history-icon" />
+        See History
+    </button>
 </div>
+<!-- Draw History Container -->
+<div class="draw-history" id="${containerId}-draw-history"></div>
 
             <!-- Progress Bar -->
             <div class="progress-container">
@@ -245,7 +250,8 @@ toggleAutoParticipation() {
                 this.poolIdElement.textContent = this.getPoolId();
                 // **RESET Participants Count**
                 this.participantsCount = 0; // Reset to 0
-                this.updateParticipantsDisplay(); // Update UI to show reset value
+this.updateParticipantsDisplay(false); // Pass 'false' to skip animation during reset
+
                 this.clearLabels(); // Clear combination labels
             
                 // Reset the prize pool to 0
@@ -467,18 +473,20 @@ displayDrawnNumbers(numbers) {
     drawHistory.prepend(drawBox);
 }
 
-updateParticipantsDisplay() {
+updateParticipantsDisplay(applyAnimation = true) {
     const participantsText = document.getElementById(`${this.container.id}-participants-text`);
     participantsText.textContent = `Participants: ${this.participantsCount}`;
-// Add the highlight class for animation
-participantsText.classList.add('highlight');
 
-// Remove the highlight class after 500ms (match animation duration)
-setTimeout(() => {
-    participantsText.classList.remove('highlight');
-}, 500);
+    // Apply animation only if the flag is true
+    if (applyAnimation) {
+        participantsText.classList.add('highlight');
+
+        // Remove the highlight class after 500ms (match animation duration)
+        setTimeout(() => {
+            participantsText.classList.remove('highlight');
+        }, 500);
+    }
 }
-
 }
 
 // Create all timers

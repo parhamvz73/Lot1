@@ -663,3 +663,204 @@ body {
   background-color: #ff4500; /* Orange Neon Color */
   box-shadow: 0 0 5px #ff4500, 0 0 10px #ff4500; /* Neon Glow Effect */
 }
+/* Button Colors Based on Box */
+.countdown-wrapper:nth-child(1) .btn,
+.countdown-wrapper:nth-child(1) .btn-secondary,
+.countdown-wrapper:nth-child(1) .btn-tertiary {
+  background-color: #ff007f; /* Pink */
+  border: 1px solid #ff007f;
+  color: white;
+}
+
+.countdown-wrapper:nth-child(2) .btn,
+.countdown-wrapper:nth-child(2) .btn-secondary,
+.countdown-wrapper:nth-child(2) .btn-tertiary {
+  background-color: #00ffea; /* Cyan */
+  border: 1px solid #00ffea;
+  color: white;
+}
+
+.countdown-wrapper:nth-child(3) .btn,
+.countdown-wrapper:nth-child(3) .btn-secondary,
+.countdown-wrapper:nth-child(3) .btn-tertiary {
+  background-color: #ffea00; /* Yellow */
+  border: 1px solid #ffea00;
+  color: black; /* High contrast text for yellow */
+}
+
+.countdown-wrapper:nth-child(4) .btn,
+.countdown-wrapper:nth-child(4) .btn-secondary,
+.countdown-wrapper:nth-child(4) .btn-tertiary {
+  background-color: #00ff00; /* Green */
+  border: 1px solid #00ff00;
+  color: white;
+}
+
+.countdown-wrapper:nth-child(5) .btn,
+.countdown-wrapper:nth-child(5) .btn-secondary,
+.countdown-wrapper:nth-child(5) .btn-tertiary {
+  background-color: #8a2be2; /* Purple */
+  border: 1px solid #8a2be2;
+  color: white;
+}
+
+.countdown-wrapper:nth-child(6) .btn,
+.countdown-wrapper:nth-child(6) .btn-secondary,
+.countdown-wrapper:nth-child(6) .btn-tertiary {
+  background-color: #ff4500; /* Orange */
+  border: 1px solid #ff4500;
+  color: white;
+}
+
+/* Hover Effects */
+.btn:hover,
+.btn-secondary:hover,
+.btn-tertiary:hover {
+  opacity: 0.8; /* Subtle hover effect */
+}
+/* Number Buttons */
+.countdown-wrapper:nth-child(1) .number-button {
+  border: 1px solid #ff007f;
+  color: #ff007f;
+}
+
+.countdown-wrapper:nth-child(2) .number-button {
+  border: 1px solid #00ffea;
+  color: #00ffea;
+}
+
+.countdown-wrapper:nth-child(3) .number-button {
+  border: 1px solid #ffea00;
+  color: #ffea00;
+}
+
+.countdown-wrapper:nth-child(4) .number-button {
+  border: 1px solid #00ff00;
+  color: #00ff00;
+}
+
+.countdown-wrapper:nth-child(5) .number-button {
+  border: 1px solid #8a2be2;
+  color: #8a2be2;
+}
+
+.countdown-wrapper:nth-child(6) .number-button {
+  border: 1px solid #ff4500;
+  color: #ff4500;
+}
+/* Selected Buttons - Match Box Colors */
+.countdown-wrapper:nth-child(1) .number-button.selected {
+  background-color: #ff007f; /* Pink */
+  color: white;
+  border: 1px solid #ff007f;
+}
+
+.countdown-wrapper:nth-child(2) .number-button.selected {
+  background-color: #00ffea; /* Cyan */
+  color: white;
+  border: 1px solid #00ffea;
+}
+
+.countdown-wrapper:nth-child(3) .number-button.selected {
+  background-color: #ffea00; /* Yellow */
+  color: black; /* High contrast text for yellow */
+  border: 1px solid #ffea00;
+}
+
+.countdown-wrapper:nth-child(4) .number-button.selected {
+  background-color: #00ff00; /* Green */
+  color: white;
+  border: 1px solid #00ff00;
+}
+
+.countdown-wrapper:nth-child(5) .number-button.selected {
+  background-color: #8a2be2; /* Purple */
+  color: white;
+  border: 1px solid #8a2be2;
+}
+
+.countdown-wrapper:nth-child(6) .number-button.selected {
+  background-color: #ff4500; /* Orange */
+  color: white;
+  border: 1px solid #ff4500;
+}
+/* Hover Effects - Match Box Colors Dynamically */
+.countdown-wrapper:nth-child(1) .number-button:hover {
+  background-color: #ff007f; /* Pink */
+  color: white;
+  border: 1px solid #ff007f;
+}
+
+.countdown-wrapper:nth-child(2) .number-button:hover {
+  background-color: #00ffea; /* Cyan */
+  color: white;
+  border: 1px solid #00ffea;
+}
+
+.countdown-wrapper:nth-child(3) .number-button:hover {
+  background-color: #ffea00; /* Yellow */
+  color: black; /* High contrast text for yellow */
+  border: 1px solid #ffea00;
+}
+
+.countdown-wrapper:nth-child(4) .number-button:hover {
+  background-color: #00ff00; /* Green */
+  color: white;
+  border: 1px solid #00ff00;
+}
+
+.countdown-wrapper:nth-child(5) .number-button:hover {
+  background-color: #8a2be2; /* Purple */
+  color: white;
+  border: 1px solid #8a2be2;
+}
+
+.countdown-wrapper:nth-child(6) .number-button:hover {
+  background-color: #ff4500; /* Orange */
+  color: white;
+  border: 1px solid #ff4500;
+}
+/* Hover Effect for Selected Buttons - Adds 20% Black Opacity */
+
+/* Timer 1 - Pink */
+.countdown-wrapper:nth-child(1) .number-button.selected:hover {
+  background-color: rgba(255, 0, 127, 0.8); /* Pink with 20% black overlay */
+  color: white;
+  border: 1px solid #ff007f;
+}
+
+/* Timer 2 - Cyan */
+.countdown-wrapper:nth-child(2) .number-button.selected:hover {
+  background-color: rgba(0, 255, 234, 0.8); /* Cyan with 20% black overlay */
+  color: white;
+  border: 1px solid #00ffea;
+}
+
+/* Timer 3 - Yellow */
+.countdown-wrapper:nth-child(3) .number-button.selected:hover {
+  background-color: rgba(255, 234, 0, 0.8); /* Yellow with 20% black overlay */
+  color: black; /* Keep text black for readability */
+  border: 1px solid #ffea00;
+}
+
+/* Timer 4 - Green */
+.countdown-wrapper:nth-child(4) .number-button.selected:hover {
+  background-color: rgba(0, 255, 0, 0.8); /* Green with 20% black overlay */
+  color: white;
+  border: 1px solid #00ff00;
+}
+
+/* Timer 5 - Purple */
+.countdown-wrapper:nth-child(5) .number-button.selected:hover {
+  background-color: rgba(138, 43, 226, 0.8); /* Purple with 20% black overlay */
+  color: white;
+  border: 1px solid #8a2be2;
+}
+
+/* Timer 6 - Orange */
+.countdown-wrapper:nth-child(6) .number-button.selected:hover {
+  background-color: rgba(255, 69, 0, 0.8); /* Orange with 20% black overlay */
+  color: white;
+  border: 1px solid #ff4500;
+}
+

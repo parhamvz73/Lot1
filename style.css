@@ -5,11 +5,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-image: url('assets/BG.png'); /* Path to your image */
-    background-size: cover; /* Cover the entire viewport */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-attachment: fixed; /* Keep the background fixed during scroll */
+    background-color: #000000;
 }
 
   
@@ -407,39 +403,69 @@ body {
     height: 24px;
     margin-right: 10px;
 }
+/* Draw History Section */
+.draw-history-section {
+  margin-top: 20px; /* Add top margin for better spacing */
+}
+
+/* Headline for Previous Drawn Numbers */
+.draw-history-title {
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  color: white; /* White text color */
+  margin-bottom: 10px; /* Space below the headline */
+  text-transform: uppercase; /* Uppercase letters */
+}
 /* Draw History Container */
 .draw-history {
-    display: flex;
-    flex-direction: row; /* Ensure the numbers flow from left to right */
-    gap: 10px; /* Add spacing between draw boxes */
-    margin-bottom: 10px;
-    flex-wrap: nowrap; /* Prevent wrapping to the next row */
-    overflow-x: auto; /* Enable horizontal scrolling if numbers exceed the width */
-    align-items: center; /* Vertically center align the boxes */
+  display: flex;
+  flex-direction: row; /* Horizontal alignment */
+  gap: 10px; /* Space between boxes */
+  margin-bottom: 10px;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow (no scrollbars) */
+  align-items: center; /* Vertically align the boxes */
+  position: relative; /* For pseudo-element positioning */
 }
 
 /* Style for each Draw Box */
 .draw-box {
-    background-color: #000000; /* Green background */
-    padding: 5px 15px; /* Padding for content spacing */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Slightly larger font for better visibility */
-    font-weight: bold;
-    color: rgb(255, 255, 255); /* White text for contrast */
-    text-align: center; /* Center align the text */
-    min-width: 60px; /* Fixed width for uniform size */
-    border: 1px solid #3a9d47; /* Slightly darker border for depth */
-    white-space: nowrap; /* Prevent line breaks */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for modern look */
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Vertically align icon and numbers */
-    gap: 8px; /* Add space between icon and text */
+  background-color: #000000; /* Background color */
+  padding: 5px 15px; /* Padding inside the box */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  font-weight: bold;
+  color: rgb(255, 255, 255); /* White text */
+  text-align: center; /* Center align text */
+  min-width: 60px; /* Fixed width */
+  border: 1px solid #3a9d47; /* Green border */
+  white-space: nowrap; /* Prevent text breaking */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: flex; /* Flex alignment */
+  align-items: center; /* Vertically align */
+  gap: 8px; /* Space between icon and text */
+  flex-shrink: 0; /* Prevent shrinking */
 }
+
+/* Dice Icon */
 .dice-icon {
-  width: 16px;
-  height: 16px;
-  filter: invert(100%); /* Make it white */
+width: 16px;
+height: 16px;
+filter: invert(100%); /* White icon */
 }
+
+/* Fade-out Effect */
+.draw-history::after {
+  content: ''; /* Required for pseudo-element */
+  position: absolute; /* Positioned relative to parent */
+  right: 0; /* Align to the right edge */
+  top: 0; /* Align to the top */
+  height: 100%; /* Match parent height */
+  width: 150px; /* Width of the fade effect */
+  pointer-events: none; /* Allow interaction with elements underneath */
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.7), transparent); /* Fade gradient */
+}
+
 
 .participants {
   display: flex; /* Use flexbox for alignment */

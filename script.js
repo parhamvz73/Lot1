@@ -48,8 +48,14 @@ class CountdownTimer {
             </div>
             <!-- Pool Prize -->
             <div class="pool-prize" id="${containerId}-pool-prize">Pool Prize 0</div>
-            <!-- Draw History Container -->
-            <div class="draw-history" id="${containerId}-draw-history"></div>
+            <!-- Draw History Section -->
+<div class="draw-history-section">
+    <!-- Headline -->
+    <div class="draw-history-title">Previous Drawn Numbers</div>
+    <!-- Draw History Container -->
+    <div class="draw-history" id="${containerId}-draw-history"></div>
+</div>
+
             <!-- Progress Bar -->
             <div class="progress-container">
                 <div class="progress-bar" id="${containerId}-progress"></div>
